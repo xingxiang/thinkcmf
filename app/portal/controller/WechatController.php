@@ -15,20 +15,29 @@ class WechatController extends HomeBaseController
     public function index()
     {
 
-        $wechat = new \Gaoming13\WechatPhpSdk\Wechat(array(
-            'appId' => 'wx3cf0f39249eb0e60',
-            'token' => 	'easywechat',
-            'encodingAESKey' =>	'f1c242f4f28f735d4687abb469072a29',
-        ));
 
-        // 获取微信消息
-        $msg = $wechat->serve();
+        $options = [
+            'debug'     => true,
+            'app_id'    => 'wx3cf0f39249eb0e60',
+            'secret'    => 'f1c242f4f28f735d4687abb469072a29',
+            'token'     => 'easywechat',
+            'log' => [
+                'level' => 'debug',
+                'file'  => '/tmp/easywechat.log',
+            ]
+        ];
 
-// 回复微信消息
-        if ($msg->MsgType == 'text' && $msg->Content == '你好') {
-            $wechat->reply("你也好！");
-        } else {
-            $wechat->reply("听不懂！");
-        }
+        $app = new \EasyWeChat\Foundation\Application($options);
+
+        $server = $app->server;
+        $user = $app->user;
+
+        $server->setMessageHandler(function($message) use ($user) {
+            $fromUser = $user->get($message->FromUserName);
+
+            return "{$fromUser->nickname} 您好！欢迎关注 overtrue!";
+        });
+
+        $server->serve()->send();
     }
 }
