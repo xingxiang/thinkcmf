@@ -18,8 +18,8 @@ class WechatController extends HomeBaseController
 
         $options = [
             'debug'     => true,
-            'app_id'    => 'wx3cf0f39249eb0e60',
-            'secret'    => 'f1c242f4f28f735d4687abb469072a29',
+            'app_id'    => 'wxa838e2848c6675ee',
+            'secret'    => '3a81809172f0ed57ec64bbfab4ac9756',
             'token'     => 'easywechat',
             'log' => [
                 'level' => 'debug',
